@@ -18,6 +18,13 @@ class CDArticleSimulation extends Simulation
   val article = csv("article.csv").circular
   val tokenFeeder = Iterator.continually(Map("token" -> CreateTokens.getNextToken))
 
+  val usersCount = System.getProperty("usersCount")
+  val duration = System.getProperty("duration")
+  val featureName = System.getProperty("featureName")
+  val tagName = System.getProperty("tagName")
+
+
+
   //val createArticle = scenario("Create An Article").exec(karateFeature("classpath:features/performance/createArticle.feature@load"))
   val createArticle = scenario("Create An Article").feed(article).feed(tokenFeeder).exec(karateFeature("classpath:features/performance/createArticleWithCSV_and_tokenFeeder.feature@load"))
 
