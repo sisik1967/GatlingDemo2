@@ -17,7 +17,7 @@ pipeline {
                     steps {
                         script {
                             sh """
-                                mvn -s ./jenkinsconfig/settings.xml test-compile gatling:test -Dgatling.simulationClass=performanceRunners.T01_conduitPerf
+                                mvn -s ./jenkinsconfig/settings.xml test-compile gatling:test -Dgatling.simulationClass=performanceRunners.CDArticleSimulation
                             """
                         }
                     }
