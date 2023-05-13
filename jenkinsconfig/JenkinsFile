@@ -1,0 +1,32 @@
+pipeline {
+        agent any
+        parameters {
+        string(name: 'RunnerName', defaultValue: "APISimulation", description: '')
+        string(name: 'TagName', defaultValue: "load", description: '')
+        string(name: 'UserCount', defaultValue: "10", description: '')
+        string(name: 'Duration', defaultValue: "10", description: '')
+        string(name: 'ConstantDuration', defaultValue: "10", description: '')
+        string(name: 'ConstantUser', defaultValue: "10", description: '')
+        choice(name: 'ortam', choices: ['sta', 'qa', 'uat'], description: '')
+        choice(name: 'ServicePath', choices: ['gunici-trading-service', 'gunici-service'], description: '')
+        string(name: 'ServiceName', defaultValue: "contract-controller", description: '')
+        string(name: 'FeatureName', defaultValue: "contractList", description: '')
+    }
+    stages {
+            stage('Running Test') {
+                    steps {
+                        script {
+                            sh """
+                                mvn -s ./jenkinsconfig/settings.xml test-compile gatling:test -Dgatling.simulationClass=performanceRunners.T01_conduitPerf
+                            """
+                        }
+                    }
+                    post {
+                           always {
+                                gatlingArchive()
+                           }
+                    }
+            }
+    }
+
+}
